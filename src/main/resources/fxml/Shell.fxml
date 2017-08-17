@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="shell" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="616.0" style="-fx-background-color: rgba(173,191,255,0.54);" stylesheets="@../css/ShellStylesheet.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.app.controllers.ShellController">
+   <children>
+      <AnchorPane layoutX="14.0" layoutY="13.0" prefHeight="397.0" prefWidth="349.0">
+         <children>
+            <Label fx:id="shellLabel" layoutX="84.0" layoutY="94.0" prefHeight="31.0" prefWidth="133.0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="245.0" layoutY="89.0" prefHeight="410.0" prefWidth="486.0">
+         <children>
+            <fx:include source="ScoreBoard.fxml" />
+         </children></AnchorPane>
+      <AnchorPane centerShape="false" layoutX="281.0" layoutY="-1.0" prefHeight="184.0" prefWidth="337.0">
+         <children>
+            <ImageView fx:id="angelFace" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../pics/Angel-icon.png" />
+               </image>
+            </ImageView>
+            <fx:include source="AngelPane.fxml" />
+            <ImageView fitHeight="17.0" fitWidth="15.0" layoutX="91.0" layoutY="44.0" opacity="0.71" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../pics/eye.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="17.0" fitWidth="15.0" layoutX="109.0" layoutY="44.0" opacity="0.71" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../pics/eye.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
