@@ -48,11 +48,11 @@ public class Board {
         this.powerUp = new ScoreUpPowerUp();
         this.hasHitPowerUpScore = false;
         this.count = 0;
-        this.level=0;
+        this.level = 0;
         this.run = true;
         this.lockKeys = false;
-        this.fiftenn= 50;
-        this.levelUpScore=10;
+        this.fiftenn = 50;
+        this.levelUpScore = 10;
     }
 
     public void runGame() {
@@ -86,10 +86,10 @@ public class Board {
         }
     }
 
-    private void checkLevel(){
-       if(score/levelUpScore>level) {
-           level++;
-       }
+    private void checkLevel() {
+        if (score / levelUpScore > level) {
+            level++;
+        }
     }
 
     public boolean checkFullBoard() {
@@ -124,14 +124,11 @@ public class Board {
             if (powerUp instanceof ScoreDownPowerUp) {
                 score = score + powerUp.decrease();
 
-            }
-            else if (powerUp instanceof ScoreUpPowerUp) {
+            } else if (powerUp instanceof ScoreUpPowerUp) {
                 score = score + powerUp.increase();
-            }
-            else if(powerUp instanceof LockKeysPowerUp){
+            } else if (powerUp instanceof LockKeysPowerUp) {
                 lockKeys = true;
-            }
-            else {
+            } else {
                 blowColumn();
             }
             hasPowerUp = false;
@@ -143,7 +140,7 @@ public class Board {
         for (int i = 0; i < shape.getShapeList().size(); i++) {
             if (shape.getShapeList().get(i).equals(powerUp.getPosition())) {
                 hasHitPowerUpScore = true;
-                hasHitPowerUpAngel= true;
+                hasHitPowerUpAngel = true;
 
                 return true;
             }
@@ -302,61 +299,62 @@ public class Board {
         }
     }
 
-    private void blowColumn(){
+    private void blowColumn() {
 
 
         Random random = new Random();
-        int xFun = random.nextInt(width-2);
+        int xFun = random.nextInt(width - 2);
 
         int xLeft;
         int xRight;
 
-        if(xFun == 0){
-            xLeft = xFun+ 1;
-            xRight = xFun+ 2;
-        }if(xFun == width){
+        if (xFun == 0) {
+            xLeft = xFun + 1;
+            xRight = xFun + 2;
+        }
+        if (xFun == width) {
             xLeft = xFun - 2;
             xRight = xFun - 1;
-        }else{
+        } else {
             xLeft = xFun - 1;
-            xRight = xFun+ 1;
+            xRight = xFun + 1;
         }
 
-        if(score < 10){
+        if (score < 10) {
             blowPointColumn(xFun);
             blowPieceColumn(xFun);
-        }else{
+        } else {
             blowPointColumns(xFun, xLeft, xRight);
             blowPieceColumns(xFun, xLeft, xRight);
         }
-        
+
     }
 
-    private void blowPointColumn(int randX){
+    private void blowPointColumn(int randX) {
 
-        for(int i = 0; i < fixedPositions.size(); i++){
+        for (int i = 0; i < fixedPositions.size(); i++) {
             Point p = new Point(fixedPositions.get(i));         //Vill egentligen bara komma åt x-värdet från punkten!
-            if(p.x == randX){
+            if (p.x == randX) {
                 fixedPositions.remove(i);
                 i--;
             }
         }
     }
 
-    private void blowPointColumns(int randX, int randLeft, int randRight){
+    private void blowPointColumns(int randX, int randLeft, int randRight) {
 
-        for(int i = 0; i < fixedPositions.size(); i++){
+        for (int i = 0; i < fixedPositions.size(); i++) {
             Point p = new Point(fixedPositions.get(i));
-            if(p.x == randX || p.x == randLeft || p.x == randRight){
+            if (p.x == randX || p.x == randLeft || p.x == randRight) {
                 fixedPositions.remove(i);
                 i--;
             }
         }
     }
 
-    private void blowPieceColumn(int randX){
+    private void blowPieceColumn(int randX) {
 
-        for(int i = 0; i < allFixedPieces.size(); i++) {
+        for (int i = 0; i < allFixedPieces.size(); i++) {
             int j = 0;
             while (j < allFixedPieces.get(i).getShapeList().size()) {
                 if (allFixedPieces.get(i).getShapeList().size() == 0) {
@@ -372,9 +370,9 @@ public class Board {
         }
     }
 
-    private void blowPieceColumns(int randX, int randLeft, int randRight){
+    private void blowPieceColumns(int randX, int randLeft, int randRight) {
 
-        for(int i = 0; i < allFixedPieces.size(); i++) {
+        for (int i = 0; i < allFixedPieces.size(); i++) {
             int j = 0;
             while (j < allFixedPieces.get(i).getShapeList().size()) {
                 if (allFixedPieces.get(i).getShapeList().size() == 0) {
@@ -382,16 +380,14 @@ public class Board {
                     i--;
                 }
                 if (allFixedPieces.get(i).getShapeList().get(j).x == randX ||
-                    allFixedPieces.get(i).getShapeList().get(j).x == randLeft ||
-                    allFixedPieces.get(i).getShapeList().get(j).x == randRight) {
+                        allFixedPieces.get(i).getShapeList().get(j).x == randLeft ||
+                        allFixedPieces.get(i).getShapeList().get(j).x == randRight) {
                     allFixedPieces.get(i).getShapeList().remove(j);
-                }
-                else {
+                } else {
                     j++;
                 }
             }
         }
-
 
 
     }
@@ -448,10 +444,10 @@ public class Board {
         for (int k = 0; k < emptyPositions.size(); k++) {
             for (int l = 0; l < fixedPositions.size(); l++) {
                 if (emptyPositions.get(k).equals(fixedPositions.get(l))) {
-                //java.lang.IndexOutOfBoundsException: Index: 294, Size: 294
-                //ArrayIndexOutOfBoundsException: -1
+                    //java.lang.IndexOutOfBoundsException: Index: 294, Size: 294
+                    //ArrayIndexOutOfBoundsException: -1
                     emptyPositions.remove(k);
-                    if(k!=0) {
+                    if (k != 0) {
                         k--;
                     }
                 }
@@ -466,7 +462,7 @@ public class Board {
         Random rand = new Random();
         int i = rand.nextInt(emptyPositions.size());
 
-        while (!(isAboveClear(emptyPositions.get(i)))){
+        while (!(isAboveClear(emptyPositions.get(i)))) {
             i = rand.nextInt(emptyPositions.size());
             System.out.println("need to check again; p(i) = " + emptyPositions.get(i));
         }
@@ -474,14 +470,14 @@ public class Board {
         return emptyPositions.get(i);
     }
 
-    private boolean isAboveClear(Point empty){
+    private boolean isAboveClear(Point empty) {
 
         List<Point> tmp = new ArrayList<>();
         //fel att skapa en ny lista?
 
-        for(int i = 0; i < fixedPositions.size(); i++){
+        for (int i = 0; i < fixedPositions.size(); i++) {
             Point fixed = new Point(fixedPositions.get(i));
-            if(fixed.x == empty.x && fixed.y < empty.y){
+            if (fixed.x == empty.x && fixed.y < empty.y) {
                 return false;
             }
         }
@@ -507,9 +503,11 @@ public class Board {
             default: {
                 powerUp = new ScoreUpPowerUp();
                 break;
-            }}}
+            }
+        }
+    }
 
-    public boolean badPowerUp(){
+    public boolean badPowerUp() {
         return powerUp instanceof ScoreDownPowerUp || powerUp instanceof LockKeysPowerUp;
     }
 

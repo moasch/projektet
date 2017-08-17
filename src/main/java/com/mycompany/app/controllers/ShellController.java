@@ -4,6 +4,7 @@ import com.mycompany.app.models.*;
 import com.mycompany.app.models.Shape;
 import com.mycompany.app.services.IService;
 import com.mycompany.app.services.ImageService;
+import com.sun.xml.internal.bind.v2.TODO;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -133,6 +134,15 @@ public class ShellController implements Initializable {
                     shellLabel.setText(" ");
                     count = 0;
                 }
+                /*
+                if(logicBoard.getScore()==1){
+                    t.pause();
+                    //göra grejer i ny Controller-klass, ex "PauseGameController".
+                    if(logicBoard.getScore()==2){
+
+                    }
+                }
+                */
             }
         });
         t.getKeyFrames().add(keyFrame);
@@ -187,6 +197,7 @@ public class ShellController implements Initializable {
             gameLoop();
             logicBoard.run = false;
         }
+
         if (logicBoard.lockKeys) {
             logicBoard.setDirectionNone();
         } else {
