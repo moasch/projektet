@@ -134,15 +134,15 @@ public class ShellController implements Initializable {
                     shellLabel.setText(" ");
                     count = 0;
                 }
-                /*
+
                 if(logicBoard.getScore()==1){
                     t.pause();
                     //göra grejer i ny Controller-klass, ex "PauseGameController".
                     if(logicBoard.getScore()==2){
-
+                        t.play();
                     }
                 }
-                */
+
             }
         });
         t.getKeyFrames().add(keyFrame);
