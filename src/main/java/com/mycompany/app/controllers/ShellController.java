@@ -51,6 +51,9 @@ public class ShellController implements Initializable {
     private int privateLevel;
     private int count;
 
+    private boolean gameState;
+    private int manipulateState;
+
     private IService service;
     private Board logicBoard;
 
@@ -66,6 +69,7 @@ public class ShellController implements Initializable {
         this.powerUpTime = 0;
         this.privateLevel = 0;
         this.count = 0;
+        this.manipulateState = 0;
 
     }
 
@@ -85,6 +89,7 @@ public class ShellController implements Initializable {
         canvas.setOnKeyReleased(this::offEvent);
 
         setBackroundLevel(0);
+        gameState = true;
     }
 
     private void moveBackround(int x, int y) {
@@ -108,6 +113,7 @@ public class ShellController implements Initializable {
                     activeY = getActiveY(i);
                     gc.drawImage(service.getShapeImage(logicBoard.getShape()), activeX, activeY);
                 }
+
                 if (logicBoard.lockKeys) {
                     powerUpTime++;
                     if (powerUpTime > 25) {
@@ -121,7 +127,7 @@ public class ShellController implements Initializable {
                     count = 1;
                 }
 
-                if (logicBoard.checkFullBoard() || logicBoard.getScore()>=40) {
+                if (logicBoard.checkFullBoard() || logicBoard.getScore() >= 40) {
                     t.stop();
                 }
 
@@ -135,24 +141,21 @@ public class ShellController implements Initializable {
                     count = 0;
                 }
 
-                if(logicBoard.getScore()==1){
+                if (logicBoard.getScore() == 1) {
                     t.pause();
+                    gameState = false;
                     gameLoop2();
-                    //göra grejer i ny Controller-klass, ex "PauseGameController".
-                    /*
-                    if(logicBoard.getScore()==2){
-                        t.play();
-                    }
-                    */
                 }
-
+                if (gameState) {
+                    t.play();
+                }
             }
         });
         t.getKeyFrames().add(keyFrame);
         t.play();
     }
 
-    private void gameLoop2(){
+    private void gameLoop2() {
         Timeline t2 = new Timeline();
         t2.setCycleCount(Animation.INDEFINITE);
         KeyFrame keyFrame2 = new KeyFrame(javafx.util.Duration.seconds(0.2), new EventHandler<ActionEvent>() {
@@ -162,8 +165,12 @@ public class ShellController implements Initializable {
                 shellLabel.setText("Vi kör en paus i spelet");
                 /*
                 Gör något med score för att återuppta gameLoop?
+                Lägg till någon animation eller något som skall ta upp en viss tid.
+                Efter något villkor går vi in i gameLoop igen!
                  */
-                //gameLoop();
+                logicBoard.score++;
+                gameState = true;
+                gameLoop();
             }
         });
         t2.getKeyFrames().add(keyFrame2);
@@ -181,7 +188,7 @@ public class ShellController implements Initializable {
         background.getChildren().add(backgroundLevel);
         shellLabel = new Label();
         background.getChildren().add(shellLabel);
-        if (privateLevel != 0 && logicBoard.getScore()<4*logicBoard.levelUpScore) {
+        if (privateLevel != 0 && logicBoard.getScore() < 4 * logicBoard.levelUpScore) {
             shellLabel.setTranslateX(50);
             shellLabel.setTranslateY(50);
             shellLabel.setText("Nya powerups upplåsta");

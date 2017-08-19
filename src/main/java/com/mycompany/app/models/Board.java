@@ -19,7 +19,7 @@ public class Board {
     private List<Point> fixedPositions;
     private boolean hasFalling = false;
     private List<Shape> allFixedPieces;
-    private int score;
+    public int score;
     private static Board board = null;
     public boolean blow;
     private AbstractPowerUp powerUp;
