@@ -157,7 +157,7 @@ public class ShellController implements Initializable {
     private void gameLoop2() {
         Timeline t2 = new Timeline();
         t2.setCycleCount(1);
-        KeyFrame keyFrame2 = new KeyFrame(javafx.util.Duration.seconds(0.2), new EventHandler<ActionEvent>() {
+        KeyFrame keyFrame2 = new KeyFrame(javafx.util.Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 gc.clearRect(0, 0, 240, 400); //Är detta permanent?
