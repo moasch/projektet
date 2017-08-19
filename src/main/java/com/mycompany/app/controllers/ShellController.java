@@ -69,7 +69,7 @@ public class ShellController implements Initializable {
         this.powerUpTime = 0;
         this.privateLevel = 0;
         this.count = 0;
-        this.manipulateState = 0;
+        this.manipulateState = 0;                       //TODO!
 
     }
 
@@ -89,7 +89,7 @@ public class ShellController implements Initializable {
         canvas.setOnKeyReleased(this::offEvent);
 
         setBackroundLevel(0);
-        gameState = true;
+        gameState = true;                //spelar det ngn roll om vi sätter true här eller i konstruktorn?
     }
 
     private void moveBackround(int x, int y) {
@@ -131,7 +131,6 @@ public class ShellController implements Initializable {
                     t.stop();
                 }
 
-
                 if (count >= 1) {
                     count++;
                 }
@@ -142,12 +141,12 @@ public class ShellController implements Initializable {
                 }
 
                 if (logicBoard.getScore() == 1) {
-                    t.pause();
-                    gameState = false;
-                    gameLoop2();
-                }
-                if (gameState) {
-                    t.play();
+                    manipulateState++;          //manipulateState blir 1 första gången
+                    if(manipulateState == 1){
+                        t.pause();
+                        gameLoop2();
+                    }
+
                 }
             }
         });
@@ -157,19 +156,13 @@ public class ShellController implements Initializable {
 
     private void gameLoop2() {
         Timeline t2 = new Timeline();
-        t2.setCycleCount(Animation.INDEFINITE);
+        t2.setCycleCount(1);
         KeyFrame keyFrame2 = new KeyFrame(javafx.util.Duration.seconds(0.2), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 gc.clearRect(0, 0, 240, 400); //Är detta permanent?
                 shellLabel.setText("Vi kör en paus i spelet");
-                /*
-                Gör något med score för att återuppta gameLoop?
-                Lägg till någon animation eller något som skall ta upp en viss tid.
-                Efter något villkor går vi in i gameLoop igen!
-                 */
-                logicBoard.score++;
-                gameState = true;
+                manipulateState++; //manipulateState går från 1 till 2
                 gameLoop();
             }
         });
