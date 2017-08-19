@@ -137,16 +137,37 @@ public class ShellController implements Initializable {
 
                 if(logicBoard.getScore()==1){
                     t.pause();
+                    gameLoop2();
                     //göra grejer i ny Controller-klass, ex "PauseGameController".
+                    /*
                     if(logicBoard.getScore()==2){
                         t.play();
                     }
+                    */
                 }
 
             }
         });
         t.getKeyFrames().add(keyFrame);
         t.play();
+    }
+
+    private void gameLoop2(){
+        Timeline t2 = new Timeline();
+        t2.setCycleCount(Animation.INDEFINITE);
+        KeyFrame keyFrame2 = new KeyFrame(javafx.util.Duration.seconds(0.2), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                gc.clearRect(0, 0, 240, 400); //Är detta permanent?
+                shellLabel.setText("Vi kör en paus i spelet");
+                /*
+                Gör något med score för att återuppta gameLoop?
+                 */
+                //gameLoop();
+            }
+        });
+        t2.getKeyFrames().add(keyFrame2);
+        t2.play();
     }
 
     private void setBackroundLevel(int i) {
