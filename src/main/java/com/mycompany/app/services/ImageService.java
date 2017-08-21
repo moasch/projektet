@@ -45,6 +45,8 @@ public class ImageService implements IService {
     private Image handshake;
     @FXML
     private Image passPort;
+    //@FXML
+    //private Image testImage;
 
     private Map<String, Image> nameImage = new HashMap<>();
 
@@ -62,6 +64,8 @@ public class ImageService implements IService {
         nameImage.put("pigWithPoop", new Image("pics/pigwithpoop.png"));
         nameImage.put("conversation2", new Image("pics/conversation2.png"));
         nameImage.put("frame", new Image("pics/frame.png"));
+        //nameImage.put("testImage", new Image("pics/test.png"));
+        //this.testImage = new Image("pics/test.png");
         this.IColor = new Image("pics/clematis.png");
         this.SquareColor = new Image("pics/flower.png");
         this.LColor = new Image("pics/sunflower.png");

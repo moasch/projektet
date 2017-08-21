@@ -4,7 +4,6 @@ import com.mycompany.app.models.*;
 import com.mycompany.app.models.Shape;
 import com.mycompany.app.services.IService;
 import com.mycompany.app.services.ImageService;
-import com.sun.xml.internal.bind.v2.TODO;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -36,6 +36,10 @@ public class ShellController implements Initializable {
     private ImageView borderView;
     @FXML
     private Label shellLabel;
+    @FXML                                       //TODO ta bort onödiga grejer, typ pauseText?
+    TextArea pauseText;
+    @FXML
+    private ImageView testImage;                //TODO ta bort testImage?
     @FXML
     private ImageView backgroundLevel;
     @FXML
@@ -51,15 +55,13 @@ public class ShellController implements Initializable {
     private int privateLevel;
     private int count;
 
-    private boolean gameState;
     private int manipulateState;
+    private int count2;
 
     private IService service;
     private Board logicBoard;
 
-
     public ShellController() {
-        //TODO gör en service för bilder
         this.service = new ImageService();
         this.logicBoard = Board.getInstance();
         this.canvas = new Canvas(240, 400);
@@ -69,11 +71,13 @@ public class ShellController implements Initializable {
         this.powerUpTime = 0;
         this.privateLevel = 0;
         this.count = 0;
-        this.manipulateState = 0;                       //TODO!
+        this.manipulateState = 0;
+        this.count = 0;
 
     }
 
     public void initialize(URL location, ResourceBundle resources) {
+        gc = canvas.getGraphicsContext2D();
         background.setPrefWidth(240);
         background.setPrefHeight(400);
         borderView = new ImageView(service.getImage("backgroundBorder"));
@@ -83,13 +87,14 @@ public class ShellController implements Initializable {
         shell.getChildren().add(canvas);
         background.getChildren().add(shellLabel);
         shell.getChildren().add(borderView);
-        gc = canvas.getGraphicsContext2D();
+        //shell.getChildren().add(testImage);                               //TODO
+        //gc.drawImage(service.getImage("test"), 50, 50, 100, 100);         //TODO
 
         canvas.setOnKeyPressed(this::onEvent);
         canvas.setOnKeyReleased(this::offEvent);
 
         setBackroundLevel(0);
-        gameState = true;                //spelar det ngn roll om vi sätter true här eller i konstruktorn?
+
     }
 
     private void moveBackround(int x, int y) {
@@ -142,7 +147,7 @@ public class ShellController implements Initializable {
 
                 if (logicBoard.getScore() == 1) {
                     manipulateState++;          //manipulateState blir 1 första gången
-                    if(manipulateState == 1){
+                    if (manipulateState == 1) {
                         t.pause();
                         gameLoop2();
                     }
@@ -156,14 +161,26 @@ public class ShellController implements Initializable {
 
     private void gameLoop2() {
         Timeline t2 = new Timeline();
-        t2.setCycleCount(1);
-        KeyFrame keyFrame2 = new KeyFrame(javafx.util.Duration.seconds(1), new EventHandler<ActionEvent>() {
+        t2.setCycleCount(Animation.INDEFINITE);
+        KeyFrame keyFrame2 = new KeyFrame(javafx.util.Duration.seconds(0.2), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 gc.clearRect(0, 0, 240, 400); //Är detta permanent?
-                shellLabel.setText("Vi kör en paus i spelet");
+                shellLabel.setTranslateX(60);
+                shellLabel.setTranslateY(50);
+                shellLabel.setText("       Grattis till 10p! \n Vi kör en paus i spelet");
                 manipulateState++; //manipulateState går från 1 till 2
-                gameLoop();
+                count2++;
+                //pauseText.setText("Välkommen");                               //TODO
+                //testImage.setImage(service.getImage("test"));
+                gc.drawImage(service.getImage("flower"),100,100,100,100);       //TODO få blomman att visas!
+                if(count2 > 25){
+                    t2.stop();
+                    shellLabel.setText("");
+                    gameLoop();
+                }
+
+
             }
         });
         t2.getKeyFrames().add(keyFrame2);

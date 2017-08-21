@@ -41,7 +41,7 @@ public class AngelPaneController implements Initializable {
     public AngelPaneController() {
         this.service = new ImageService();
         this.logicBoard = Board.getInstance();
-        this.canvas = new Canvas(337, 184);
+        this.canvas = new Canvas(337, 184);     // 337, 184
     }
 
     @Override
