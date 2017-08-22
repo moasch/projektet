@@ -36,8 +36,6 @@ public class ShellController implements Initializable {
     private ImageView borderView;
     @FXML
     private Label shellLabel;
-    @FXML                                       //TODO ta bort onödiga grejer, typ pauseText?
-    TextArea pauseText;
     @FXML
     private ImageView testImage;                //TODO ta bort testImage?
     @FXML
@@ -55,11 +53,14 @@ public class ShellController implements Initializable {
     private int privateLevel;
     private int count;
 
-    private int manipulateState;
-    private int count2;
-
     private IService service;
     private Board logicBoard;
+
+    private int manipulateState;
+    private int count2;
+    private int pigX;                   //TODO byt namn och fundera på om detta skall finnas här
+    private int pixY;
+    private PauseBoard pauseBoard;
 
     public ShellController() {
         this.service = new ImageService();
@@ -73,7 +74,9 @@ public class ShellController implements Initializable {
         this.count = 0;
         this.manipulateState = 0;
         this.count = 0;
-
+        this.pigX = 100;             //TODO flytta detta? Skall ej vara "statiskt" utan föränderligt
+        this.pixY = 100;
+        this.pauseBoard = PauseBoard.getInstance();
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -87,11 +90,12 @@ public class ShellController implements Initializable {
         shell.getChildren().add(canvas);
         background.getChildren().add(shellLabel);
         shell.getChildren().add(borderView);
-        //shell.getChildren().add(testImage);                               //TODO
-        //gc.drawImage(service.getImage("test"), 50, 50, 100, 100);         //TODO
 
         canvas.setOnKeyPressed(this::onEvent);
         canvas.setOnKeyReleased(this::offEvent);
+
+        //canvas.setOnKeyPressed(this::onEvent2);         //TODO fungerar detta?
+        //canvas.setOnKeyReleased(this::offEvent2);
 
         setBackroundLevel(0);
 
@@ -171,21 +175,28 @@ public class ShellController implements Initializable {
                 shellLabel.setText("       Grattis till 10p! \n Vi kör en paus i spelet");
                 manipulateState++; //manipulateState går från 1 till 2
                 count2++;
-                //pauseText.setText("Välkommen");                               //TODO
+                //background.getChildren().add(testImage);                               //TODO
+                //shell.getChildren().add(testImage);
                 //testImage.setImage(service.getImage("test"));
-                gc.drawImage(service.getImage("flower"),100,100,100,100);       //TODO få blomman att visas!
+                pauseBoard.runPauseGame();
+                drawPig();
                 if(count2 > 25){
                     t2.stop();
                     shellLabel.setText("");
                     gameLoop();
                 }
-
-
             }
         });
         t2.getKeyFrames().add(keyFrame2);
         t2.play();
     }
+
+    private void drawPig(){                               //TODO ändra namn
+        //gc.drawImage(service.getImage("pig"),pigX,pixY,50,50); //Nu ritar vi bara ut en bild
+        gc.drawImage(service.getImage("pig"),pauseBoard.pigShape.getPigPosition().getX(),pauseBoard.pigShape.getPigPosition().getY(),50,50);
+    }
+
+
 
     private void setBackroundLevel(int i) {
         if (i == 0) {
@@ -241,10 +252,23 @@ public class ShellController implements Initializable {
         } else {
             logicBoard.updateDirection(evt.getCode());
         }
+        /*
+        TODO Lägga in villkor som kollar om "pasueGame körs", typ pauseBoard.run?
+         */
+        pauseBoard.updateDirection(evt.getCode());
     }
 
     private void offEvent(KeyEvent evt) {
         logicBoard.setDirectionNone();
+        pauseBoard.setDirectionNone();
+    }
+
+    private void onEvent2(KeyEvent evt){
+        pauseBoard.updateDirection(evt.getCode());
+    }
+
+    private void offEvent2(KeyEvent evt){
+        pauseBoard.setDirectionNone();
     }
 
 

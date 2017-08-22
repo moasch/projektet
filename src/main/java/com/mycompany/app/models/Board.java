@@ -19,7 +19,7 @@ public class Board {
     private List<Point> fixedPositions;
     private boolean hasFalling = false;
     private List<Shape> allFixedPieces;
-    public int score;
+    public int score;                       //TODO göra private med getter?
     private static Board board = null;
     public boolean blow;
     private AbstractPowerUp powerUp;
@@ -31,9 +31,7 @@ public class Board {
     public boolean hasHitPowerUpScore;
     private static int fiftenn;
     public static int levelUpScore;
-
     private int count;
-
     private Direction direction;
 
     private Board(int width, int height) {
@@ -62,7 +60,7 @@ public class Board {
         }
         if (hasFalling) {
             checkLevel();
-            List<Point> tmp = shape.updatePositions(direction);
+            List<Point> tmp = shape.updatePositions(direction);     //en lista med
             if (canMove(tmp)) {
                 shape.setPositions(tmp);
                 handlePowerUp();
