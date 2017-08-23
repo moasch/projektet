@@ -14,7 +14,7 @@ public class PigShape {
     private int getPigStartY = 100;
 
     public PigShape(){
-        this.pigPosition = new Point(pigStartX,getPigStartY);       //TODO fungerar detta om pos ändras?
+        this.pigPosition = new Point(pigStartX,getPigStartY);
     }
 
     public Point getPigPosition(){

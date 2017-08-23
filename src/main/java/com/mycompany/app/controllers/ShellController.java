@@ -88,9 +88,6 @@ public class ShellController implements Initializable {
         canvas.setOnKeyPressed(this::onEvent);
         canvas.setOnKeyReleased(this::offEvent);
 
-        //canvas.setOnKeyPressed(this::onEvent2);         //TODO fungerar detta?
-        //canvas.setOnKeyReleased(this::offEvent2);
-
         setBackroundLevel(0);
 
     }
@@ -107,7 +104,7 @@ public class ShellController implements Initializable {
         t.setCycleCount(Animation.INDEFINITE);
         KeyFrame keyFrame = new KeyFrame(javafx.util.Duration.seconds(0.2), new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                logicBoard.runGame();
+                logicBoard.runGame();                   //skickar oss till Board o logiken!
                 gc.clearRect(0, 0, 240, 400);
                 showPowerUp();
                 drawFixed();
@@ -129,6 +126,9 @@ public class ShellController implements Initializable {
                     setBackroundLevel(logicBoard.level + 1);
                     count = 1;
                 }
+                /*
+                TODO    lägg in ett if-villkor som ökar score enligt poäng från bonusrundan
+                 */
 
                 if (logicBoard.checkFullBoard() || logicBoard.getScore() >= 40) {
                     t.stop();
@@ -163,15 +163,15 @@ public class ShellController implements Initializable {
         KeyFrame keyFrame2 = new KeyFrame(javafx.util.Duration.seconds(0.01), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                gc.clearRect(0, 0, 240, 400); //Är detta permanent?
+                pauseBoard.runPauseGame();
+                gc.clearRect(0, 0, 240, 400);
                 shellLabel.setTranslateX(60);
                 shellLabel.setTranslateY(50);
                 shellLabel.setText("       Grattis till 10p! \n Vi kör en paus i spelet");
                 manipulateState++; //manipulateState går från 1 till 2
                 count2++;
-                pauseBoard.runPauseGame();
                 drawPig();
-                drawFlowers();                      //TODO!
+                drawFlowers();
                 if(count2 > 1000){               //10 sek
                     t2.stop();
                     shellLabel.setText("");
@@ -188,7 +188,10 @@ public class ShellController implements Initializable {
     }
 
     private void drawFlowers(){
-        gc.drawImage(service.getImage("bonusFlower"),50,50,16,16);          //TODO
+        //gc.drawImage(service.getImage("bonusFlower"),50,50,16,16);          //TODO
+        for(int i = 0; i < pauseBoard.getRandomPositions().size(); i++){
+            gc.drawImage(service.getImage("bonusFlower"),pauseBoard.getRandomPositions().get(i).x,pauseBoard.getRandomPositions().get(i).y,16,16);
+        }
     }
 
     private void setBackroundLevel(int i) {
