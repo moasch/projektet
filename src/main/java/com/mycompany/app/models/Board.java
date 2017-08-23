@@ -29,7 +29,7 @@ public class Board {
     public boolean lockKeys;
     public boolean hasHitPowerUpAngel;
     public boolean hasHitPowerUpScore;
-    private static int fiftenn;
+    private static int fifteen;
     public static int levelUpScore;
     private int count;
     private Direction direction;
@@ -49,18 +49,18 @@ public class Board {
         this.level = 0;
         this.run = true;
         this.lockKeys = false;
-        this.fiftenn = 50;
+        this.fifteen = 50;
         this.levelUpScore = 10;
     }
 
     public void runGame() {
         count++;
-        if (count % fiftenn == 0) {
+        if (count % fifteen == 0) {
             placePowerUp();
         }
         if (hasFalling) {
             checkLevel();
-            List<Point> tmp = shape.updatePositions(direction);     //en lista med
+            List<Point> tmp = shape.updatePositions(direction);
             if (canMove(tmp)) {
                 shape.setPositions(tmp);
                 handlePowerUp();

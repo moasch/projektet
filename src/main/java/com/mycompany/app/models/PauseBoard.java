@@ -19,34 +19,85 @@ public class PauseBoard {
     //public int score //TODO använda samma som i Board?
     private Direction direction;
     private List<Point> randomPositions;
-    private boolean hasNoRandomList;
+    private List<Point> actualPositions;
+    private boolean firstTime;
 
-    private PauseBoard(int width, int height) {  //När skall dessa värden ges?
+    private PauseBoard(int width, int height) {
         this.width = width;
         this.height = height;
         this.pigShape = new PigShape();     //Skapa här?
-        this.hasNoRandomList = true;
+        this.actualPositions = new ArrayList<>();
+        this.firstTime = true;
     }
 
     public void runPauseGame() {
-        //TODO logiken för "gris-spelet" här
         placePigShape();
-        /*
-        if(showFlowers){
-            placeBonusFlowers();
-            showFlowers = false;                  //Innebär detta att vi kan "dölja" blommor när de äts upp?
-        }
-        */
-        placeBonusFlowers();
         pigShape.updatePositionPig(direction);
-        //System.out.println("Hello");
+        showBonusFlowers();
+        //System.out.println("PigX " + pigShape.getPigPosition().x + " PigY " + pigShape.getPigPosition().y);
     }
 
-    private void placeBonusFlowers() {
-        findRandomPositions(pauseBoardPositions());
+    private void showBonusFlowers() {
+        System.out.println("showBonusFlowers");
+        if(firstTime){
+            System.out.println("showBonusFlowers > firstTime");
+            //addera random element till actualPositions
+            findRandomPositions(fillPauseBoardPositions());     //skapar randomPositions 1a gng, sedan inget mer.
+            initActualPositions();
+            firstTime = false;
+        }else{
+            //uppdatera actualPositions (ta bort de som grisen kommer åt)
+            updateFlowerPositions();
+        }
     }
 
-    private List<Point> pauseBoardPositions() {
+    private void findRandomPositions(List<Point> boardPositions) {
+        System.out.println("findRandomPositions");
+        //En metod som fyller en lista med 20 random platser från brädet
+        randomPositions = new ArrayList<>();
+        Random rand = new Random();
+        for (int i = 0; i < 21; i++) {
+            int k = rand.nextInt(boardPositions.size());
+            randomPositions.add(boardPositions.get(k));
+        }
+    }
+
+    private void initActualPositions(){
+        System.out.println("initActualPositions");
+        //actualPositions = new ArrayList<>();                        //innebär detta att listan endast existerar lokalt?
+        for(int i = 0; i < randomPositions.size(); i++){
+            actualPositions.add(randomPositions.get(i));
+        }
+    }
+
+    private void updateFlowerPositions(){
+        System.out.println("updateFlowerPositions");
+        //en metod som skall ta bort positioner ifall grisen når dem
+        for(int i = 0; i < actualPositions.size(); i++){
+            //System.out.println("actualPositions["+i+"] " + actualPositions.get(i));
+            /*
+            if((pigShape.getPigPosition().x == actualPositions.get(i).x) && (pigShape.getPigPosition().y == actualPositions.get(i).y)){        //denna sats körs aldrig
+                System.out.println("KROCK");
+                actualPositions.remove(i);
+                i--;                            //?
+                Board.getInstance().score++;
+            }
+            */
+            if(pigShape.getPigPosition().x == actualPositions.get(i).x){
+                System.out.println("XXX");
+                actualPositions.remove(i);
+                i--;                            //?
+                //Board.getInstance().score++;
+            }
+        }
+    }
+
+    public List<Point> getActualPositions(){
+        return actualPositions;
+    }
+
+    private List<Point> fillPauseBoardPositions() {
+        System.out.println("fillPauseBoardPositions");
     //En metod som skapar en lista över brädets alla positioner, förutom den där grisen startar
         List<Point> pauseBoardPositions = new ArrayList<>();
         for (int i = 0; i < width - 2; i++) {
@@ -58,23 +109,6 @@ public class PauseBoard {
             }
         }
         return pauseBoardPositions;
-    }
-
-    private void findRandomPositions(List<Point> boardPositions) {
-    //En metod som fyller en lista med 5 random platser från brädet
-        Random rand = new Random();
-        if(hasNoRandomList){
-            randomPositions = new ArrayList<>();
-            for (int i = 0; i < 21; i++) {
-                int k = rand.nextInt(boardPositions.size());
-                randomPositions.add(boardPositions.get(k));
-            }
-            hasNoRandomList = false;
-        }
-    }
-
-    public List<Point> getRandomPositions(){
-        return randomPositions;
     }
 
     private void placePigShape() {

@@ -165,9 +165,9 @@ public class ShellController implements Initializable {
             public void handle(ActionEvent event) {
                 pauseBoard.runPauseGame();
                 gc.clearRect(0, 0, 240, 400);
-                shellLabel.setTranslateX(60);
+                shellLabel.setTranslateX(40);
                 shellLabel.setTranslateY(50);
-                shellLabel.setText("       Grattis till 10p! \n Vi kör en paus i spelet");
+                shellLabel.setText("Bonusrunda på 10 sekunder! \n Ät blommor för extrapoäng");
                 manipulateState++; //manipulateState går från 1 till 2
                 count2++;
                 drawPig();
@@ -188,9 +188,9 @@ public class ShellController implements Initializable {
     }
 
     private void drawFlowers(){
-        //gc.drawImage(service.getImage("bonusFlower"),50,50,16,16);          //TODO
-        for(int i = 0; i < pauseBoard.getRandomPositions().size(); i++){
-            gc.drawImage(service.getImage("bonusFlower"),pauseBoard.getRandomPositions().get(i).x,pauseBoard.getRandomPositions().get(i).y,16,16);
+        for(int i = 0; i < pauseBoard.getActualPositions().size(); i++){
+            //gc.drawImage(service.getImage("bonusFlower"),pauseBoard.getRandomPositions().get(i).x,pauseBoard.getRandomPositions().get(i).y,16,16);
+            gc.drawImage(service.getImage("bonusFlower"),pauseBoard.getActualPositions().get(i).x,pauseBoard.getActualPositions().get(i).y,16,16);
         }
     }
 
