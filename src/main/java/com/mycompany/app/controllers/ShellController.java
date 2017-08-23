@@ -37,8 +37,6 @@ public class ShellController implements Initializable {
     @FXML
     private Label shellLabel;
     @FXML
-    private ImageView testImage;                //TODO ta bort testImage?
-    @FXML
     private ImageView backgroundLevel;
     @FXML
     private Canvas canvas;
@@ -58,8 +56,6 @@ public class ShellController implements Initializable {
 
     private int manipulateState;
     private int count2;
-    private int pigX;                   //TODO byt namn och fundera på om detta skall finnas här
-    private int pixY;
     private PauseBoard pauseBoard;
 
     public ShellController() {
@@ -74,8 +70,6 @@ public class ShellController implements Initializable {
         this.count = 0;
         this.manipulateState = 0;
         this.count = 0;
-        this.pigX = 100;             //TODO flytta detta? Skall ej vara "statiskt" utan föränderligt
-        this.pixY = 100;
         this.pauseBoard = PauseBoard.getInstance();
     }
 
@@ -166,7 +160,7 @@ public class ShellController implements Initializable {
     private void gameLoop2() {
         Timeline t2 = new Timeline();
         t2.setCycleCount(Animation.INDEFINITE);
-        KeyFrame keyFrame2 = new KeyFrame(javafx.util.Duration.seconds(0.2), new EventHandler<ActionEvent>() {
+        KeyFrame keyFrame2 = new KeyFrame(javafx.util.Duration.seconds(0.01), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 gc.clearRect(0, 0, 240, 400); //Är detta permanent?
@@ -175,12 +169,10 @@ public class ShellController implements Initializable {
                 shellLabel.setText("       Grattis till 10p! \n Vi kör en paus i spelet");
                 manipulateState++; //manipulateState går från 1 till 2
                 count2++;
-                //background.getChildren().add(testImage);                               //TODO
-                //shell.getChildren().add(testImage);
-                //testImage.setImage(service.getImage("test"));
                 pauseBoard.runPauseGame();
                 drawPig();
-                if(count2 > 25){
+                drawFlowers();                      //TODO!
+                if(count2 > 1000){               //10 sek
                     t2.stop();
                     shellLabel.setText("");
                     gameLoop();
@@ -192,11 +184,12 @@ public class ShellController implements Initializable {
     }
 
     private void drawPig(){                               //TODO ändra namn
-        //gc.drawImage(service.getImage("pig"),pigX,pixY,50,50); //Nu ritar vi bara ut en bild
         gc.drawImage(service.getImage("pig"),pauseBoard.pigShape.getPigPosition().getX(),pauseBoard.pigShape.getPigPosition().getY(),50,50);
     }
 
-
+    private void drawFlowers(){
+        gc.drawImage(service.getImage("bonusFlower"),50,50,16,16);          //TODO
+    }
 
     private void setBackroundLevel(int i) {
         if (i == 0) {
@@ -262,14 +255,5 @@ public class ShellController implements Initializable {
         logicBoard.setDirectionNone();
         pauseBoard.setDirectionNone();
     }
-
-    private void onEvent2(KeyEvent evt){
-        pauseBoard.updateDirection(evt.getCode());
-    }
-
-    private void offEvent2(KeyEvent evt){
-        pauseBoard.setDirectionNone();
-    }
-
 
 }

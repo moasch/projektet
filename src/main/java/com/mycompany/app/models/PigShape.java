@@ -28,15 +28,19 @@ public class PigShape {
         switch (direction){
             case LEFT:
                 p.x = pigPosition.x -= 1;
+                //p.x = pigPosition.x -= 5;
                 return p;
             case RIGHT:
                 p.x = pigPosition.x += 1;
+                //p.x = pigPosition.x += 5;
                 return p;
             case UP:
                 p.y = pigPosition.y -= 1;
+                //p.y = pigPosition.y -= 5;
                 return p;
             case DOWN:
                 p.y = pigPosition.y += 1;
+                //p.y = pigPosition.y += 5;
                 return p;
             default:
                 return p;
