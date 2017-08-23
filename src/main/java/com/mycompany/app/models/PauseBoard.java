@@ -65,7 +65,7 @@ public class PauseBoard {
         Random rand = new Random();
         if(hasNoRandomList){
             randomPositions = new ArrayList<>();
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 21; i++) {
                 int k = rand.nextInt(boardPositions.size());
                 randomPositions.add(boardPositions.get(k));
             }
