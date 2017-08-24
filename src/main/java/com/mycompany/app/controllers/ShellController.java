@@ -184,7 +184,8 @@ public class ShellController implements Initializable {
     }
 
     private void drawPig(){                               //TODO ändra namn
-        gc.drawImage(service.getImage("pig"),pauseBoard.pigShape.getPigPosition().getX(),pauseBoard.pigShape.getPigPosition().getY(),50,50);
+        gc.drawImage(service.getImage("pig"),pauseBoard.pigShape.getPigPosition().getX(),pauseBoard.pigShape.getPigPosition().getY(),25,25);
+        //gc.drawImage(service.getImage("pig"),pauseBoard.pigShape.getPigShapeList().get(0).x,pauseBoard.pigShape.getPigShapeList().get(0).y,25,25);
     }
 
     private void drawFlowers(){

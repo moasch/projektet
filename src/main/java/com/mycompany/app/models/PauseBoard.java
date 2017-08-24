@@ -1,6 +1,7 @@
 package com.mycompany.app.models;
 
 import javafx.scene.input.KeyCode;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.awt.*;
 import java.util.List;
@@ -21,6 +22,7 @@ public class PauseBoard {
     private List<Point> randomPositions;
     private List<Point> actualPositions;
     private boolean firstTime;
+    private int countFlowers;
 
     private PauseBoard(int width, int height) {
         this.width = width;
@@ -28,11 +30,13 @@ public class PauseBoard {
         this.pigShape = new PigShape();     //Skapa här?
         this.actualPositions = new ArrayList<>();
         this.firstTime = true;
+        this.countFlowers = 0;
     }
 
     public void runPauseGame() {
         placePigShape();
         pigShape.updatePositionPig(direction);
+        //pigShape.updatePigPositions(direction);
         showBonusFlowers();
         //System.out.println("PigX " + pigShape.getPigPosition().x + " PigY " + pigShape.getPigPosition().y);
     }
@@ -47,8 +51,32 @@ public class PauseBoard {
             firstTime = false;
         }else{
             //uppdatera actualPositions (ta bort de som grisen kommer åt)
-            updateFlowerPositions();
+            handleBonusFlowers();
         }
+    }
+
+    private void handleBonusFlowers(){
+        System.out.println("handeBonusFlowers");
+        if(hitBonusFlower()){
+            if(countFlowers > 31){
+                Board.getInstance().score++;
+                countFlowers = 0;
+            }
+        }
+    }
+
+    private boolean hitBonusFlower(){
+        System.out.println("hitBonusFlower");
+        for(int i = 0; i < actualPositions.size(); i++){
+            if((pigShape.getPigPosition().x == actualPositions.get(i).x)||(pigShape.getPigPosition().y == actualPositions.get(i).y)){
+                System.out.println("KROCK");
+                actualPositions.remove(i);
+                i--;
+                countFlowers++;
+                return true;
+            }
+        }
+        return false;
     }
 
     private void findRandomPositions(List<Point> boardPositions) {
@@ -56,7 +84,7 @@ public class PauseBoard {
         //En metod som fyller en lista med 20 random platser från brädet
         randomPositions = new ArrayList<>();
         Random rand = new Random();
-        for (int i = 0; i < 21; i++) {
+        for (int i = 0; i < 101; i++) {
             int k = rand.nextInt(boardPositions.size());
             randomPositions.add(boardPositions.get(k));
         }
@@ -70,27 +98,6 @@ public class PauseBoard {
         }
     }
 
-    private void updateFlowerPositions(){
-        System.out.println("updateFlowerPositions");
-        //en metod som skall ta bort positioner ifall grisen når dem
-        for(int i = 0; i < actualPositions.size(); i++){
-            //System.out.println("actualPositions["+i+"] " + actualPositions.get(i));
-            /*
-            if((pigShape.getPigPosition().x == actualPositions.get(i).x) && (pigShape.getPigPosition().y == actualPositions.get(i).y)){        //denna sats körs aldrig
-                System.out.println("KROCK");
-                actualPositions.remove(i);
-                i--;                            //?
-                Board.getInstance().score++;
-            }
-            */
-            if(pigShape.getPigPosition().x == actualPositions.get(i).x){
-                System.out.println("XXX");
-                actualPositions.remove(i);
-                i--;                            //?
-                //Board.getInstance().score++;
-            }
-        }
-    }
 
     public List<Point> getActualPositions(){
         return actualPositions;
@@ -113,6 +120,7 @@ public class PauseBoard {
 
     private void placePigShape() {
         pigShape.setPigPosition(pigShape.getPigPosition());     //Kommer detta alltd blir samma position?
+        //pigShape.setPigPositions();
     }
 
     public void updateDirection(KeyCode key) {  //Gör det ngt att denna heter samma som i Board?

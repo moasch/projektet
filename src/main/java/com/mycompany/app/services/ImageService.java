@@ -59,7 +59,7 @@ public class ImageService implements IService {
         nameImage.put("sweden", new Image("pics/sweden.png"));
         nameImage.put("basicThermometer", new Image("pics/basicthermometer.png"));
         nameImage.put("backgroundBorder", new Image("pics/ram1.png"));
-        nameImage.put("pig", new Image("pics/pig2.png"));
+        nameImage.put("pig", new Image("pics/pig2.png"));               //TODO
         nameImage.put("pigWithGlasses", new Image("pics/pigwithglasses.png"));
         nameImage.put("pigWithPoop", new Image("pics/pigwithpoop.png"));
         nameImage.put("conversation2", new Image("pics/conversation2.png"));
