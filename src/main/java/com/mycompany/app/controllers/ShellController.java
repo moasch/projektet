@@ -185,12 +185,10 @@ public class ShellController implements Initializable {
 
     private void drawPig(){                               //TODO ändra namn
         gc.drawImage(service.getImage("pig"),pauseBoard.pigShape.getPigPosition().getX(),pauseBoard.pigShape.getPigPosition().getY(),25,25);
-        //gc.drawImage(service.getImage("pig"),pauseBoard.pigShape.getPigShapeList().get(0).x,pauseBoard.pigShape.getPigShapeList().get(0).y,25,25);
     }
 
     private void drawFlowers(){
         for(int i = 0; i < pauseBoard.getActualPositions().size(); i++){
-            //gc.drawImage(service.getImage("bonusFlower"),pauseBoard.getRandomPositions().get(i).x,pauseBoard.getRandomPositions().get(i).y,16,16);
             gc.drawImage(service.getImage("bonusFlower"),pauseBoard.getActualPositions().get(i).x,pauseBoard.getActualPositions().get(i).y,16,16);
         }
     }
@@ -249,9 +247,6 @@ public class ShellController implements Initializable {
         } else {
             logicBoard.updateDirection(evt.getCode());
         }
-        /*
-        TODO Lägga in villkor som kollar om "pasueGame körs", typ pauseBoard.run?
-         */
         pauseBoard.updateDirection(evt.getCode());
     }
 

@@ -1,7 +1,6 @@
 package com.mycompany.app.models;
 
 import javafx.scene.input.KeyCode;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.awt.*;
 import java.util.List;
@@ -13,11 +12,10 @@ import java.util.*;
  */
 public class PauseBoard {
 
-    private int height;     //Behövs detta? När?
+    private int height;
     private int width;
     public PigShape pigShape;
     private static PauseBoard pauseBoard = null;
-    //public int score //TODO använda samma som i Board?
     private Direction direction;
     private List<Point> randomPositions;
     private List<Point> actualPositions;
@@ -27,7 +25,7 @@ public class PauseBoard {
     private PauseBoard(int width, int height) {
         this.width = width;
         this.height = height;
-        this.pigShape = new PigShape();     //Skapa här?
+        this.pigShape = new PigShape();
         this.actualPositions = new ArrayList<>();
         this.firstTime = true;
         this.countFlowers = 0;
@@ -36,9 +34,7 @@ public class PauseBoard {
     public void runPauseGame() {
         placePigShape();
         pigShape.updatePositionPig(direction);
-        //pigShape.updatePigPositions(direction);
         showBonusFlowers();
-        //System.out.println("PigX " + pigShape.getPigPosition().x + " PigY " + pigShape.getPigPosition().y);
     }
 
     private void showBonusFlowers() {
@@ -92,7 +88,6 @@ public class PauseBoard {
 
     private void initActualPositions(){
         System.out.println("initActualPositions");
-        //actualPositions = new ArrayList<>();                        //innebär detta att listan endast existerar lokalt?
         for(int i = 0; i < randomPositions.size(); i++){
             actualPositions.add(randomPositions.get(i));
         }
@@ -120,7 +115,6 @@ public class PauseBoard {
 
     private void placePigShape() {
         pigShape.setPigPosition(pigShape.getPigPosition());     //Kommer detta alltd blir samma position?
-        //pigShape.setPigPositions();
     }
 
     public void updateDirection(KeyCode key) {  //Gör det ngt att denna heter samma som i Board?
